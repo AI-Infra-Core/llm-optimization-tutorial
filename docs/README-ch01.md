@@ -23,10 +23,7 @@ This chapter builds a complete pre-training pipeline from scratch. We will focus
 
 ## How to Run
 
-Start Training: `python src/main.py`
-
-View all options: `python src/main.py --help`
-
+Start Training: `python src/main.py configs/train_qwen3_0.6B_singleGPU.yaml`
 
 ## What's Next?
 
