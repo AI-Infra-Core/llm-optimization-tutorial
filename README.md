@@ -20,6 +20,13 @@ We will start with the [Qwen3](https://huggingface.co/Qwen) series as our exampl
 * **From-Scratch Implementation**: We build the core training components ourselves, giving you a deeper understanding of the entire pipeline.
 * **Hands-On & Extensible**: Provides runnable code that you can easily modify and extend for your own experiments.
 
+## Tutorial Outline
+
+* [Chapter 01: Training QWen3 0.6B Dense on a Single A100 GPU](./chapter-01/README.md)
+    * **Pure PyTorch Model Implementation**: The `modeling_qwen3.py` is built using only foundational PyTorch layers (nn.Module, nn.Linear, etc.). It has zero dependencies on the Hugging Face transformers library.
+    * **Padding-Free Training with Packed Sequences**: We completely eliminate wasted computation on padding tokens. The custom `packed_sequence_collate_fn` process variable-length sequences into a contiguous buffer.
+    * **Batch Dimension Elimination**: The input tensors to the model are 2D `(total_tokens, hidden_size)` or 1D `(total_tokens,)`, not the traditional 3D `(batch_size, seq_len, hidden_size)`. This "unbatched" or "packed" approach is a modern technique used in high-performance libraries like FlashAttention to simplify kernel implementations.
+* Chapter 02: Profiling and Performance Analysis. Coming soon.
 
 ## Contributing
 
