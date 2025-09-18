@@ -1,0 +1,15 @@
+model:
+  config_path: configs/qwen3-0.6B.json
+
+logging:
+  log_interval: 4
+
+optimizer:
+  start_lr: 1.0e-4
+  end_lr: 1.0e-5
+  total_steps: 1000
+
+dataset:
+  num_samples: 101
+  sequence_length: 4096
+  batch_size: 4
