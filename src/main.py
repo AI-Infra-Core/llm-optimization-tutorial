@@ -10,6 +10,7 @@ from data_loader import VirtualTokenDataset, packed_sequence_collate_fn
 from trainer import Trainer
 from modeling_qwen3 import Qwen3ForCausalLM
 import yaml
+from tools.logging import init_logger, logger
 
 @click.command()
 @click.argument("training_config_file")
@@ -23,7 +24,7 @@ def train(training_config_file):
     training_config = addict.Dict(training_config)
 
     device = 'cuda' if torch.cuda.is_available() else 'cpu'
-    print(f"--- Using device: {device} ---")
+    logger.info(f"--- Using device: {device} ---")
 
     # model configuration
     with open(training_config.model.config_path, 'r') as f:
@@ -45,10 +46,11 @@ def train(training_config_file):
         T_max=optimizer_config.total_steps,
         eta_min=optimizer_config.end_lr
     )
-    print(f"--- Cosine LR Scheduler enabled: T_max={optimizer_config.total_steps}, Max_LR={optimizer_config.start_lr}, Min_LR={optimizer_config.end_lr} ---")
+    logger.info(f"--- Cosine LR Scheduler enabled: T_max={optimizer_config.total_steps}, Max_LR={optimizer_config.start_lr}, Min_LR={optimizer_config.end_lr} ---")
 
     # start training
     trainer = Trainer(
+        training_config=training_config,
         model=model,
         optimizer=optimizer,
         criterion=criterion,
@@ -58,7 +60,8 @@ def train(training_config_file):
     )
     trainer.train_single_epoch(train_loader)
     
-    print("\n--- Training Finished ---")
+    logger.info("\n--- Training Finished ---")
 
 if __name__ == "__main__":
+    init_logger()
     train()

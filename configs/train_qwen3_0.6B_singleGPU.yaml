@@ -13,3 +13,10 @@ dataset:
   num_samples: 101
   sequence_length: 4096
   batch_size: 4
+
+profiling:
+  enable_profiling: true
+  enable_memory_snapshot: true
+  save_folder: ./output/profile_results
+  start_step: 8
+  end_step: 11

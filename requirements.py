@@ -3,3 +3,4 @@ click
 flash-attn
 addict
 pyyaml
+numpy
