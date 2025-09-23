@@ -6,6 +6,7 @@ import numpy as np
 from tools.profiling import maybe_enable_memory_snapshot, maybe_enable_profiling
 from tools.logging import logger
 from tools.utils import MFUCalculator
+from torch.profiler import record_function
 class Trainer:
     def __init__(self, training_config, model, optimizer, criterion, scheduler, device, log_interval=10):
         self.training_config = training_config
@@ -40,12 +41,13 @@ class Trainer:
                 position_ids = batch['position_ids'].to(self.device)
                 max_seqlen = batch['max_seqlen']
 
-                outputs = self.model(
-                    input_ids=input_ids,
-                    cu_seqlens=cu_seqlens,
-                    max_seqlen=max_seqlen,
-                    position_ids=position_ids
-                )
+                with record_function("model_forward"):
+                    outputs = self.model(
+                        input_ids=input_ids,
+                        cu_seqlens=cu_seqlens,
+                        max_seqlen=max_seqlen,
+                        position_ids=position_ids
+                    )
 
                 loss = self.criterion(outputs.view(-1, outputs.size(-1)), labels.view(-1))
 

@@ -31,6 +31,8 @@ def train(training_config_file):
         model_config = json.load(f)
     model_config = addict.Dict(model_config)
     model = Qwen3ForCausalLM(model_config).to(torch.bfloat16).to(device)
+    logger.info(f"--- Model initialized ---")
+    logger.info(f"--- Model: {model} ---")
 
     # dataset configuration
     dataset_config = training_config.dataset

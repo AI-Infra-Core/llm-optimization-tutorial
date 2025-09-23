@@ -28,18 +28,6 @@ def maybe_enable_profiling(profiling_config):
 
     if profiling_config.enable_profiling:
         trace_dir = get_trace_dir(profiling_config)
-
-        def trace_handler(prof):
-            curr_trace_dir = trace_dir
-
-            logger.info(f"Dumping profiler traces ended at step {prof.step_num}")
-            begin = time.monotonic()
-
-            output_file = os.path.join(curr_trace_dir, f"iteration_{profiling_config.start_step}_{profiling_config.end_step}.json")
-            prof.export_chrome_trace(output_file)
-            logger.info(
-                f"Finished dumping profiler traces in {time.monotonic() - begin:.2f} seconds"
-            )
         
         logger.info(f"Profiling active. Traces will be saved at {trace_dir}. Profile steps: [{profiling_config.start_step}, {profiling_config.end_step})")
         
